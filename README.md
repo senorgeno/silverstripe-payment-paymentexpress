@@ -3,9 +3,9 @@ SilverStripe Payment PaymentExpress Module
 
 Maintainer Contacts
 -------------------
-*  Frank Mullenger (frankmullenger_AT_gmail(dot)com)
-   [Deadly Technology Blog](http://deadlytechnology.com/silverstripe/)
-   [SwipeStripe Shop](http://swipestripe.com)
+Frank Mullenger (frankmullenger_AT_gmail(dot)com)
+* [Deadly Technology Blog](http://deadlytechnology.com/silverstripe/)
+* [SwipeStripe Shop](http://swipestripe.com)
 
 Requirements
 ------------
