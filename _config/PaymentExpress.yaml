@@ -1,0 +1,25 @@
+name: PaymentExpress
+---
+
+PaymentFactory:
+  PaymentExpressPxPay:
+    title: 'Payment Express PxPay'
+    gateway_classes:
+      live: 'PaymentExpressGateway_PxPay'
+      dev: 'PaymentExpressGateway_PxPay'
+    processor: 'PaymentProcessor_GatewayHosted'
+    model: 'Payment'
+
+PaymentExpressGateway:
+  url:
+    'https://sec.paymentexpress.com/pxpay/pxaccess.aspx'
+  live:
+    test_mode:
+      false
+    lookup_url:
+      'https://payments.paystation.co.nz/lookup/'
+  dev:
+    test_mode:
+      true
+    lookup_url:
+      'https://www.paystation.co.nz/lookup/quick/'
