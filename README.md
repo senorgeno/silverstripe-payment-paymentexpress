@@ -1,6 +1,8 @@
 SilverStripe Payment PaymentExpress Module
 ===========================================
 
+**Work in progress**
+
 Maintainer Contacts
 -------------------
 Frank Mullenger (frankmullenger_AT_gmail(dot)com)
