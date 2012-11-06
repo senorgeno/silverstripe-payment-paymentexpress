@@ -1,9 +1,4 @@
 <?php
-/**
- * Paystation gateway
- */
-class PaymentExpressGateway extends PaymentGateway {
-}
 
 /**
  * Paystation 3 party gateway, payment is processed on the gateway.
@@ -36,7 +31,7 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
 
     $config = $this->getConfig();
 
-    $PxPay_Url    = Config::inst()->get('PaymentExpressGateway', 'url');
+    $PxPay_Url    = Config::inst()->get('PaymentExpressGateway_PxPay', 'url');
     $PxPay_Userid = $config['authentication']['user_id'];
     $PxPay_Key    = $config['authentication']['key'];
 

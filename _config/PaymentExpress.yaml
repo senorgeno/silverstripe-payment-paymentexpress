@@ -10,7 +10,7 @@ PaymentFactory:
     processor: 'PaymentProcessor_GatewayHosted'
     model: 'Payment'
 
-PaymentExpressGateway:
+PaymentExpressGateway_PxPay:
   url:
     'https://sec.paymentexpress.com/pxpay/pxaccess.aspx'
   live:
