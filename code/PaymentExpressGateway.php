@@ -38,27 +38,19 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     $pxpay = new PxPay_Curl($PxPay_Url, $PxPay_Userid, $PxPay_Key);
     $request = new PxPayRequest();
 
-    // TODO: Need to set email address and merchant reference
-
-    //Calculate AmountInput
-    $amount = $data['Amount'];
-    $currency = $data['Currency'];
-
-    //Generate a unique identifier for the transaction
-    $TxnId = uniqid("ID");
+    $request->setAmountInput($data['Amount']);
+    $request->setCurrencyInput($data['Currency']);
 
     //Set PxPay properties
-    $request->setMerchantReference('merchant ref');
-    $request->setEmailAddress('test@example.com');
-
-    $request->setAmountInput($amount);
-    $request->setCurrencyInput($currency);
+    if (isset($data['Reference'])) $request->setMerchantReference($data['Reference']);
+		if (isset($data['EmailAddress'])) $request->setEmailAddress($data['EmailAddress']);
 
     $request->setUrlFail($this->returnURL);    //Can be a dedicated failure page
     $request->setUrlSuccess($this->returnURL); //Can be a dedicated success page
 
-    $request->setTxnType("Purchase");
-    $request->setTxnId($TxnId); 
+    //Generate a unique identifier for the transaction
+    $request->setTxnId(uniqid('ID')); 
+    $request->setTxnType('Purchase');
 
     //Call makeRequest function to obtain input XML
     $request_string = $pxpay->makeRequest($request);
@@ -67,8 +59,8 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     $response = new MifMessage($request_string);
 
     //Parse output XML
-    $url = $response->get_element_text("URI");
-    $valid = $response->get_attribute("valid");
+    $url = $response->get_element_text('URI');
+    $valid = $response->get_attribute('valid');
 
     //Redirect to payment page
     Controller::curr()->redirect($url);
