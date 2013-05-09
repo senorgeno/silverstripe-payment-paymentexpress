@@ -268,6 +268,49 @@ class PxPayRequest extends PxPayMessage
 }
 
 #******************************************************************************
+# Class for PxPay lookup request messages.
+#******************************************************************************
+class PxPayLookupRequest extends PxPayMessage
+{
+	var $Response;
+	var $PxPayUserId;
+	var $PxPayKey;
+	
+	#Constructor
+ 	function PxPayRequest(){
+		$this->PxPayMessage();
+	}
+	
+	function setResponse($Response){
+		$this->Response = $Response;
+	}
+	function setUserId($UserId){
+		$this->PxPayUserId = $UserId;
+	}
+	function setKey($Key){
+		$this->PxPayKey = $Key;
+	}
+
+	#******************************************************************
+	#Data validation 
+	#******************************************************************
+	function validData(){
+		return true;
+	}
+	
+	function toXml(){
+		$arr = get_object_vars($this);
+
+		$xml  = "<ProcessResponse>";
+    	while (list($prop, $val) = each($arr))
+        	$xml .= "<$prop>$val</$prop>" ;
+
+		$xml .= "</ProcessResponse>";
+		return $xml;
+	}
+}
+
+#******************************************************************************
 # Abstract base class for PxPay messages.
 # These are messages with certain defined elements,  which can be serialized to XML.
 

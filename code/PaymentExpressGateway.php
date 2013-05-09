@@ -25,9 +25,8 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     $PxPay_Userid = $config['authentication']['user_id'];
     $PxPay_Key    = $config['authentication']['key'];
 
-    $pxpay = new PxPay_Curl($PxPay_Url, $PxPay_Userid, $PxPay_Key);
+    //Construct the request
     $request = new PxPayRequest();
-
     $request->setAmountInput($data['Amount']);
     $request->setCurrencyInput($data['Currency']);
 
@@ -35,14 +34,15 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     if (isset($data['Reference'])) $request->setMerchantReference($data['Reference']);
 		if (isset($data['EmailAddress'])) $request->setEmailAddress($data['EmailAddress']);
 
-    $request->setUrlFail($this->returnURL);    //Can be a dedicated failure page
-    $request->setUrlSuccess($this->returnURL); //Can be a dedicated success page
+    $request->setUrlFail($this->cancelURL);
+    $request->setUrlSuccess($this->returnURL);
 
     //Generate a unique identifier for the transaction
     $request->setTxnId(uniqid('ID')); 
     $request->setTxnType('Purchase');
 
-    //Call makeRequest function to obtain input XML
+    //Get encrypted URL from DPS to redirect the user to
+    $pxpay = new PxPay_Curl($PxPay_Url, $PxPay_Userid, $PxPay_Key);
     $request_string = $pxpay->makeRequest($request);
 
     //Obtain output XML
@@ -55,6 +55,46 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     //Redirect to payment page
     Controller::curr()->redirect($url);
   }
+
+  /**
+   * Check that the payment was successful using "Process Response" API (http://www.paymentexpress.com/Technical_Resources/Ecommerce_Hosted/PxPay.aspx).
+   * 
+   * @param SS_HTTPRequest $request Request from the gateway - transaction response
+   * @return PaymentGateway_Result
+   */ 
+	public function getResponse($request) {
+		
+		$config = $this->getConfig();
+
+    $PxPay_Url    = Config::inst()->get('PaymentExpressGateway_PxPay', 'url');
+    $PxPay_Userid = $config['authentication']['user_id'];
+    $PxPay_Key    = $config['authentication']['key'];
+
+		$url = $request->getVar('url');
+		$result = $request->getVar('result');
+		$userID = $request->getVar('userid');
+		
+		//Construct the request to check the payment status
+    $request = new PxPayLookupRequest();
+    $request->setResponse($result);
+
+    //Get encrypted URL from DPS to redirect the user to
+    $pxpay = new PxPay_Curl($PxPay_Url, $PxPay_Userid, $PxPay_Key);
+    $request_string = $pxpay->makeRequest($request);
+
+    //Obtain output XML
+    $response = new MifMessage($request_string);
+    
+    //Parse output XML
+    $success = $response->get_element_text('Success');
+
+    if ($success == 0) {
+    	return new PaymentGateway_Failure();
+    }
+    else {
+    	return new PaymentGateway_Success();
+    }
+	}
 
 }
 
