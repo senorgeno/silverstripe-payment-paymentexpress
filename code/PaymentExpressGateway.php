@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Paystation 3 party gateway, payment is processed on the gateway.
- * 
- * http://www.paystation.co.nz/cms_show_download.php?id=8
- */
 class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
 
   protected $supportedCurrencies = array(
@@ -22,11 +17,6 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     return $this->supportedCurrencies;
   }
 
-  /**
-   * Process the payment by redirecting user to Paystation
-   * 
-   * @param Array $data
-   */
   public function process($data) {
 
     $config = $this->getConfig();
