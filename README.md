@@ -1,5 +1,7 @@
 # SilverStripe Payment PaymentExpress Module
 
+**Work in progress, some changes to the API still to come**
+
 ## Maintainer Contacts
 *  [Frank Mullenger](https://github.com/frankmullenger)
 
