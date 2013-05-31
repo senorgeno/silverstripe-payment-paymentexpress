@@ -83,7 +83,7 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
    * @param SS_HTTPRequest $request Request from the gateway - transaction response
    * @return PaymentGateway_Result
    */ 
-	public function getResponse($request) {
+	public function check($request) {
 
 		$data = $request->getVars();
 

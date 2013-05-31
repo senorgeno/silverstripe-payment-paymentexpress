@@ -116,7 +116,7 @@ class PaymentExpressPxPayTest extends SapphireTest {
 			'userid' => $PxPay_Userid,
 			'mock' => 'success'
 		));
-		Director::test($this->processor->gateway->getReturnURL() . "?$queryString");
+		Director::test($this->processor->gateway->returnURL . "?$queryString");
 		
 		$payment = $payment = Payment::get()->byID($this->processor->payment->ID);
 		$this->assertEquals($payment->Status, Payment::SUCCESS);
@@ -142,7 +142,7 @@ class PaymentExpressPxPayTest extends SapphireTest {
 			'userid' => $PxPay_Userid,
 			'mock' => 'failure'
 		));
-		Director::test($this->processor->gateway->getReturnURL() . "?$queryString");
+		Director::test($this->processor->gateway->returnURL . "?$queryString");
 		
 		$payment = $payment = Payment::get()->byID($this->processor->payment->ID);
 		$this->assertEquals($payment->Status, Payment::FAILURE);
@@ -168,7 +168,7 @@ class PaymentExpressPxPayTest extends SapphireTest {
 			'userid' => $PxPay_Userid,
 			'mock' => 'incomplete'
 		));
-		Director::test($this->processor->gateway->getReturnURL() . "?$queryString");
+		Director::test($this->processor->gateway->returnURL . "?$queryString");
 		
 		$payment = $payment = Payment::get()->byID($this->processor->payment->ID);
 		$this->assertEquals($payment->Status, Payment::INCOMPLETE);
