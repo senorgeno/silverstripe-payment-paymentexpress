@@ -40,7 +40,7 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
     if (isset($data['Reference'])) $request->setMerchantReference($data['Reference']);
 		if (isset($data['EmailAddress'])) $request->setEmailAddress($data['EmailAddress']);
 
-    $request->setUrlFail($this->cancelURL);
+    $request->setUrlFail($this->returnURL);
     $request->setUrlSuccess($this->returnURL);
 
     //Generate a unique identifier for the transaction
@@ -83,7 +83,7 @@ class PaymentExpressGateway_PxPay extends PaymentGateway_GatewayHosted {
    * @param SS_HTTPRequest $request Request from the gateway - transaction response
    * @return PaymentGateway_Result
    */ 
-	public function check($request) {
+	public function getResponse($request) {
 
 		$data = $request->getVars();
 
